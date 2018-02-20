@@ -1,7 +1,11 @@
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+// FontAwesome 5.0.6
+@import "node_modules/fontawesome-free/web-fonts-with-css/scss/fontawesome.scss";
+@import "node_modules/fontawesome-free/web-fonts-with-css/scss/fa-solid.scss";
+@import "node_modules/fontawesome-free/web-fonts-with-css/scss/fa-brands.scss";
 
 // Variables
 @import "variables";
