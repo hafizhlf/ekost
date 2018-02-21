@@ -9,7 +9,7 @@
             @foreach($kosts as $kost)
                 <div class="card text-center">
                     <div class="card-header">{{$kost->nama_kost}}</div>
-                    <img class="card-img-top" src="/storage/image/kost/{{$kost->photo}}" alt="Card image cap">
+                    <img class="card-img-top" src="/storage/image/kost/{{$kost->photo}}" alt="{{$kost->nama_kost}}">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <h3 class="card-title">Deskripsi Kost</h3>

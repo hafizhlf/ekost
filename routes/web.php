@@ -22,3 +22,10 @@ Route::get('/panel', 'UserPanelController@index');
 Route::resource('/kost', 'KostController');
 
 Route::resource('/fasilitas', 'FasilitasController');
+
+// Admin
+Route::get('/admin', 'AdminController@index');
+Route::get('/admin/{user}/editUser', 'AdminController@editUser');
+Route::put('/admin/{user}', 'AdminController@updateRole')->name('admin.updateRole');
+Route::post('/admin/{user}', 'AdminController@updateUser')->name('updateUser');
+Route::delete('/admin/{user}', 'AdminController@deleteUser')->name('admin.deleteUser');
