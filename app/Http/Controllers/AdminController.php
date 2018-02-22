@@ -28,7 +28,7 @@ class AdminController extends Controller
             case 'user':
                 $user->role = 'admin';
                 break;
-            
+
             default:
                 $user->role = 'user';
                 break;
@@ -48,7 +48,7 @@ class AdminController extends Controller
         $this->validate($request, [
             'name' => 'required|string|min:6|max:255',
             'email' => 'required|string|email|max:255',
-            'password' => 'nullable|max:255|min:8|confirmed',
+            'password' => 'nullable|max:255|min:7|confirmed',
         ]);
 
         $user = User::find($id);
