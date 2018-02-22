@@ -29,3 +29,6 @@ Route::get('/admin/{user}/editUser', 'AdminController@editUser');
 Route::put('/admin/{user}', 'AdminController@updateRole')->name('admin.updateRole');
 Route::post('/admin/{user}', 'AdminController@updateUser')->name('updateUser');
 Route::delete('/admin/{user}', 'AdminController@deleteUser')->name('admin.deleteUser');
+Route::get('/admin/create/fasilitas', 'AdminController@createFasilitas')->name('create.fasilitas');
+Route::post('/admin/store/fasilitas', 'AdminController@storeFasilitas')->name('fasilitasStore');
+Route::delete('/admin/{fasilitas}/fasilitas', 'AdminController@deleteFasilitas')->name('delete.fasilitas');

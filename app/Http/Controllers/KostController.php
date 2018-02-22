@@ -23,7 +23,7 @@ class KostController extends Controller
      */
     public function index()
     {
-        $user_id = auth::user()->id;
+        $user_id = Auth::user()->id;
         $kosts = DB::table('kosts')->where('user_id', $user_id)->get();
         $data = ['kosts' => $kosts];
         return view('kost.index', $data);
@@ -51,7 +51,7 @@ class KostController extends Controller
             'name' => 'required|string|max:255',
             'desc' => 'required|string|max:255',
             'addr' => 'required|string|max:255',
-            'photo' => 'image|nullable|max:1999',
+            'pict' => 'image|nullable|max:1999',
         ]);
 
         if($request->hasFile('pict')){
@@ -84,7 +84,7 @@ class KostController extends Controller
     public function show($id)
     {
         $kost = Kost::find($id);
-        if(auth::user()->id != $kost->user_id){
+        if(Auth::user()->id != $kost->user_id){
             return redirect('/kost')->with('error', 'Akses dilarang');
         }
         $harga = HargaKost::where('kost_id', $id)->first();;
@@ -123,7 +123,7 @@ class KostController extends Controller
             'name' => 'required|string|max:255',
             'desc' => 'required|string|max:255',
             'addr' => 'required|string|max:255',
-            'photo' => 'image|nullable|max:1999',
+            'pict' => 'image|nullable|max:1999',
         ]);
 
         if($request->hasFile('pict')){
