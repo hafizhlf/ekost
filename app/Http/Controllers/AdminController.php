@@ -165,7 +165,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'kelurahan' => 'required|string|unique:kelurahan|min:4',
-            'kode_pos' => 'required|min:5|numeric'
+            'kode_pos' => 'required|numeric'
         ]);
 
         $kelurahan = new Kelurahan;

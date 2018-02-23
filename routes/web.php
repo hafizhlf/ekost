@@ -20,9 +20,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/panel', 'UserPanelController@index');
 
 Route::resource('/kost', 'KostController');
-Route::get('/kost/addimg/{kost}', 'KostController@addImg');
+Route::get('/kost/addimg/{kost}', 'KostController@addImg')->name('create.img');
 Route::post('/kost/saveimg', 'KostController@saveImg')->name('kost.saveimg');
+Route::delete('kost/img/{kost}/{img}', 'KostController@destroyImg')->name('destroy.img');
 Route::get('kost/gallery/{kost}', 'KostController@Gallery');
+Route::get('kost/{kost}/harga', 'KostController@createHarga')->name('create.harga');
+Route::post('kost/{kost}/harga', 'KostController@storeHarga')->name('store.harga');
+Route::post('kost/{kost}/fasilitas', 'KostController@storeFasilitas')->name('store.fasilitaskost');
 
 Route::resource('/fasilitas', 'FasilitasController');
 
