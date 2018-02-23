@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UploadGallery;
 use App\Kost;
 use App\HargaKost;
+use App\Photo;
+use App\Fasilitas;
 use Auth;
 
 class KostController extends Controller
@@ -24,7 +27,7 @@ class KostController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $kosts = DB::table('kosts')->where('user_id', $user_id)->get();
+        $kosts = DB::table('kosts')->where('user_id', $user_id)->paginate(5);
         $data = ['kosts' => $kosts];
         return view('kost.index', $data);
     }
@@ -87,10 +90,14 @@ class KostController extends Controller
         if(Auth::user()->id != $kost->user_id){
             return redirect('/kost')->with('error', 'Akses dilarang');
         }
-        $harga = HargaKost::where('kost_id', $id)->first();;
+        $harga = HargaKost::where('kost_id', $id)->first();
+        $photos = Photo::where('kost_id', $id)->get();
+        $fasilitas = DB::table('fasilitas')->get();
+
         $data = [
             'harga' => $harga,
             'kost' => $kost,
+            'fasilitas' => $fasilitas,
         ];
         return view('kost.show', $data);
     }
@@ -170,5 +177,44 @@ class KostController extends Controller
 
         $kost->delete();
         return redirect('/kost')->with('success', 'Kost dihapus');
+    }
+
+    public function addImg($id)
+    {
+        $kost = Kost::find($id);
+        return view('kost.addimg')->with('kost', $kost);
+    }
+
+    public function saveImg(UploadGallery $request)
+    {
+        //$kost = Kost::create($request->all());
+        foreach ($request->photos as $photo) {
+            //$filename = $photo->store('photos');
+            $fileNameWithExt = $photo->getClientOriginalName();
+            $fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $extension = $photo->getClientOriginalExtension();
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+            $path = $photo->storeAs('public/image/kost', $fileNameToStore);
+            Photo::create([
+                'photo' => $fileNameToStore,
+                'kost_id' => $request->id,
+            ]);
+        }
+        return redirect('/kost/'. $request->id)->with('success', 'Photo berhasil ditambah');
+    }
+
+    public function gallery($id)
+    {
+        $kost = Kost::find($id);
+        if(Auth::user()->id != $kost->user_id){
+            return redirect('/kost')->with('error', 'Akses dilarang');
+        }
+        $photos = Photo::where('kost_id', $id)->get();
+
+        $data = [
+            'kost' => $kost,
+            'photos' => $photos,
+        ];
+        return view('kost.gallery', $data);
     }
 }

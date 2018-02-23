@@ -8,31 +8,52 @@
         <div class="col-md-8">
             <div class="card mb-4">
                 <div class="card-header text-center">
-                    Data Kost
+                    Informasi Kost
                 </div>
                 <div class="card-body text-center">
                     <h4 class="card-title">
-                        Foto-foto
+                        Zona Lokasi Kost
                     </h4>
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                            <img class="d-block w-100" src="http://liforco.dev/storage/image/kost/countryside-6343_1518477536.jpg" alt="First slide">
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <hr>
+                    <p class="card-text">
+                        Hello
+                    </p>
+                </div>
+                <div class="card-body text-center">
                     <h4 class="card-title">
-                        <a href="/fasilitas/{{$kost->id}}">Fasilitas Kost</a>
+                        Gallery
                     </h4>
+                    <p class="card-text">
+                        <div class="btn-group" role="group">
+                            <a href="/kost/gallery/{{ $kost->id }}" class="form-control btn btn-outline-secondary">Lihat Gallery</a>
+                            <a href="/kost/addimg/{{ $kost->id }}" class="form-control btn btn-outline-secondary">Tambah Gallery</a>
+                        </div>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center">
+                        Fitur Kost
+                    </h4>
+                    <p class="card-text">
+                        <table class="table table-hover">
+                            <tr>
+                                <?php $i = 1; ?>
+                                @foreach ($fasilitas as $dfas)
+                                    <td width="240">
+                                        <input type="checkbox" class="form-check-input" id="fasilitas{{ $i }}">
+                                        <label for="fasilitas{{ $i }}" class="form-check-label">
+                                            <img src="/storage/image/icon/{{ $dfas->icon }}" width="35">
+                                            {{ $dfas->nama_fasilitas }}
+                                        </label>
+                                    </td>
+                                    @if ($i % 2 == 0)
+                                        </tr>
+                                        <tr>
+                                    @endif
+                                    <?php $i++ ?>
+                                @endforeach
+                            </tr>
+                        </table>
+                    </p>
                 </div>
             </div>
         </div>
@@ -53,6 +74,9 @@
                         Harga belum di masukkan
                         @endif
                     </h4>
+                    <p class="card-text">
+                        <a href="#" class="form-control btn btn-outline-secondary">Isi harga</a>
+                    </p>
                 </div>
             </div>
         </div>

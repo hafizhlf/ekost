@@ -20,6 +20,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/panel', 'UserPanelController@index');
 
 Route::resource('/kost', 'KostController');
+Route::get('/kost/addimg/{kost}', 'KostController@addImg');
+Route::post('/kost/saveimg', 'KostController@saveImg')->name('kost.saveimg');
+Route::get('kost/gallery/{kost}', 'KostController@Gallery');
 
 Route::resource('/fasilitas', 'FasilitasController');
 
