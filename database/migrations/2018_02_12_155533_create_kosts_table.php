@@ -18,7 +18,7 @@ class CreateKostsTable extends Migration
             $table->string('nama_kost');
             $table->mediumText('deskripsi');
             $table->string('alamat_lengkap');
-            $table->string('user_id');
+            $table->integer('user_id')->unsigned();
             $table->string('photo');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

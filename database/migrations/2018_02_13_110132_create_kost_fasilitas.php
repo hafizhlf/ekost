@@ -17,7 +17,7 @@ class CreateKostFasilitas extends Migration
             $table->increments('id');
             $table->string('nama_fasilitas');
             $table->string('icon');
-            $table->string('kost_id');
+            $table->integer('kost_id')->unsigned();
             $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
             $table->timestamps();
         });

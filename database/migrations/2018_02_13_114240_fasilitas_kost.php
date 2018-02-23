@@ -15,8 +15,8 @@ class FasilitasKost extends Migration
     {
         Schema::create('fasilitas_kost', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('fasilitas_id');
-            $table->integer('kost_id');
+            $table->integer('fasilitas_id')->unsigned();
+            $table->integer('kost_id')->unsigned();
             $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
             $table->foreign('fasilitas_id')->references('id')->on('fasilitas')->onDelete('cascade');
             $table->timestamps();

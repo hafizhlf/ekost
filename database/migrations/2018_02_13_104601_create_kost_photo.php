@@ -16,7 +16,7 @@ class CreateKostPhoto extends Migration
         Schema::create('photo', function (Blueprint $table) {
             $table->increments('id');
             $table->string('photo');
-            $table->string('kost_id');
+            $table->integer('kost_id')->unsigned();
             $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
             $table->timestamps();
         });

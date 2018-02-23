@@ -18,7 +18,7 @@ class HargaKost extends Migration
             $table->integer('hari');
             $table->integer('minggu');
             $table->integer('bulan');
-            $table->integer('kost_id');
+            $table->integer('kost_id')->unsigned();
             $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
             $table->timestamps();
         });
