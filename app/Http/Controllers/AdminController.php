@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\Paginator;
 use App\User;
 use App\Fasilitas;
+use App\Kecamatan;
+use App\Kelurahan;
 use Auth;
 
 class AdminController extends Controller
@@ -31,9 +33,15 @@ class AdminController extends Controller
     public function index()
     {
         $users = DB::table('users')->orderBy('role', 'asc')->orderBy('name', 'asc')->paginate(5, ['*'], 'users');
-        $fasilitas = DB::table('fasilitas')->paginate(5, ['*'], 'fasilitas');
-        return view('admin.index')->with(['users' => $users,
-        'fasilitas' => $fasilitas]);
+        $fasilitas = DB::table('fasilitas')->orderBy('nama_fasilitas', 'asc')->paginate(5, ['*'], 'fasilitas');
+        $kecamatan = DB::table('kecamatan')->orderBy('kecamatan', 'asc')->paginate(5, ['*'], 'kecamatan');
+        $kelurahan = DB::table('kelurahan')->orderBy('kode_pos', 'asc')->paginate(5, ['*'], 'kelurahan');
+        return view('admin.index')->with(
+            ['users' => $users,
+            'fasilitas' => $fasilitas,
+            'kecamatan' => $kecamatan,
+            'kelurahan' => $kelurahan]
+        );
     }
 
     public function updateRole($id)
@@ -121,5 +129,68 @@ class AdminController extends Controller
         Storage::delete('public/image/icon/'.$fasilitas->icon);
         $fasilitas->delete();
         return redirect('/admin')->with('success', 'Data fasilitas berhasil dihapus');
+    }
+
+    public function createKecamatan()
+    {
+        return view('admin.createKecamatan');
+    }
+
+    public function storeKecamatan(Request $request)
+    {
+        $request->validate([
+            'kecamatan' => 'required|string|unique:kecamatan|min:5'
+        ]);
+
+        $kecamatan = new Kecamatan;
+        $kecamatan->kecamatan = $request->input('kecamatan');
+        $kecamatan->save();
+        return redirect('/admin')->with('success', 'Kecamatan berhasil ditambahkan');
+    }
+
+    public function showKelurahan($id)
+    {
+        $kecamatan = Kecamatan::find($id);
+        $kelurahan = Kelurahan::where('kecamatan_id', $id)->orderBy('kelurahan', 'asc')->paginate(5);
+        return view('admin.kelurahan')->with(['kecamatan' => $kecamatan, 'kelurahan' => $kelurahan]);
+    }
+
+    public function createKelurahan($id)
+    {
+        $kecamatan = Kecamatan::find($id);
+        return view('admin.createKelurahan')->with('kecamatan', $kecamatan);
+    }
+
+    public function storeKelurahan(Request $request, $id)
+    {
+        $request->validate([
+            'kelurahan' => 'required|string|unique:kelurahan|min:4',
+            'kode_pos' => 'required|min:5|numeric'
+        ]);
+
+        $kelurahan = new Kelurahan;
+        $kelurahan->kode_pos = $request->input('kode_pos');
+        $kelurahan->kelurahan = $request->input('kelurahan');
+        $kelurahan->kecamatan_id = $id;
+        $kelurahan->save();
+
+        return redirect('/admin/' . $id . '/kelurahan')->with('success', 'Kelurahan baru berhasil di tambahkan');
+    }
+
+    public function destroyKelurahan(Request $request, $kode_pos)
+    {
+        $kelurahan = Kelurahan::find($kode_pos);
+        $kelurahan->delete();
+
+        $id = $request->input('kecamatan');
+        return redirect('/admin/' . $id . '/kelurahan')->with('success', 'Kelurahan berhasil di hapus');
+    }
+
+    public function destroyKecamatan($id)
+    {
+        $kelurahan = Kecamatan::find($id);
+        $kelurahan->delete();
+
+        return redirect('/admin/')->with('success', 'Kecamatan berhasil di hapus');
     }
 }

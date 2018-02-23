@@ -35,3 +35,10 @@ Route::delete('/admin/{user}', 'AdminController@deleteUser')->name('admin.delete
 Route::get('/admin/create/fasilitas', 'AdminController@createFasilitas')->name('create.fasilitas');
 Route::post('/admin/store/fasilitas', 'AdminController@storeFasilitas')->name('fasilitasStore');
 Route::delete('/admin/{fasilitas}/fasilitas', 'AdminController@deleteFasilitas')->name('delete.fasilitas');
+Route::get('/admin/create/kecamatan', 'AdminController@createKecamatan')->name('create.kecamatan');
+Route::post('/admin/store/kecamatan', 'AdminController@storeKecamatan')->name('store.kecamatan');
+Route::delete('/admin/{kecamatan}/kecamatan', 'AdminController@destroyKecamatan')->name('destroy.kecamatan');
+Route::get('/admin/{kecamatan}/kelurahan', 'AdminController@showKelurahan')->name('show.kecamatan');
+Route::get('/admin/{kecamatan}/create/kelurahan', 'AdminController@createKelurahan')->name('create.kelurahan');
+Route::post('/admin/{kecamatan}/store/kelurahan', 'AdminController@storeKelurahan')->name('store.kelurahan');
+Route::delete('/admin/{kecamatan}/kelurahan', 'AdminController@destroyKelurahan')->name('destroy.kelurahan');
