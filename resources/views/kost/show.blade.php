@@ -12,21 +12,16 @@
                 </div>
                 <div class="card-body text-center">
                     <h4 class="card-title">
-                        Zona Lokasi Kost
+                        Lokasi Kost
                     </h4>
                     <p class="card-text">
-                        Hello
-                    </p>
-                </div>
-                <div class="card-body text-center">
-                    <h4 class="card-title">
-                        Gallery
-                    </h4>
-                    <p class="card-text">
-                        <div class="btn-group" role="group">
-                            <a href="/kost/gallery/{{ $kost->id }}" class="form-control btn btn-outline-secondary">Lihat Gallery</a>
-                            <a href="/kost/addimg/{{ $kost->id }}" class="form-control btn btn-outline-secondary">Tambah Gallery</a>
-                        </div>
+                        Alamat: {{ $kost->alamat_lengkap }}
+                        <br/>
+                        Kode Pos: {{$kelurahan->kode_pos}}
+                        <br/>
+                        Kelurahan: {{ $kelurahan->kelurahan }}
+                        <br/>
+                        Kecamatan: {{ $kecamatan->kecamatan}}
                     </p>
                 </div>
                 <div class="card-body">
@@ -34,25 +29,37 @@
                         Fitur Kost
                     </h4>
                     <p class="card-text">
-                        <table class="table table-hover">
-                            <tr>
-                                <?php $i = 1; ?>
-                                @foreach ($fasilitas as $dfas)
-                                    <td width="240">
-                                        <input type="checkbox" class="form-check-input" id="fasilitas{{ $i }}">
-                                        <label for="fasilitas{{ $i }}" class="form-check-label">
-                                            <img src="/storage/image/icon/{{ $dfas->icon }}" width="35">
-                                            {{ $dfas->nama_fasilitas }}
-                                        </label>
-                                    </td>
-                                    @if ($i % 2 == 0)
-                                        </tr>
-                                        <tr>
-                                    @endif
-                                    <?php $i++ ?>
-                                @endforeach
-                            </tr>
-                        </table>
+                        <form method="post" action="{{ route('store.fasilitaskost', $kost->id) }}">
+                            @csrf
+                            <table class="table table-hover">
+                                <tr>
+                                    <?php $i = 1 ?>
+                                    @foreach ($fasilitas as $dfas)
+                                        <td>
+                                            <label for="fasilitas{{ $i }}" class="form-check-label">
+                                                <img src="/storage/image/icon/{{ $dfas->icon }}" width="35">
+                                                {{ $dfas->nama_fasilitas }}
+                                            </label>
+                                        </td>
+                                        <td width="10">
+                                            <input type="checkbox" class="form-check-input" name="fasilitas[]"
+                                            @foreach ($fasilitaskos as $dfaskos)
+                                                @if ($dfaskos->fasilitas_id == $dfas->id)
+                                                    checked
+                                                @endif
+                                            @endforeach
+                                            value="{{ $dfas->id }}" id="fasilitas{{ $i }}">
+                                        </td>
+                                        @if ($i % 3 == 0)
+                                            </tr>
+                                            <tr>
+                                        @endif
+                                        <?php $i++ ?>
+                                    @endforeach
+                                </tr>
+                            </table>
+                            <input type="submit" class="btn btn-outline-primary float-right" value="Simpan">
+                        </form>
                     </p>
                 </div>
             </div>
@@ -75,7 +82,7 @@
                         @endif
                     </h4>
                     <p class="card-text">
-                        <a href="#" class="form-control btn btn-outline-secondary">Isi harga</a>
+                        <a href="{{ route('create.harga', $kost->id) }}" class="form-control btn btn-outline-secondary">Isi harga</a>
                     </p>
                 </div>
             </div>

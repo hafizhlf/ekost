@@ -4,6 +4,7 @@
 <div class="container">
     @include('inc.messages')
     <h2>Kost yang anda miliki</h2>
+    <br/>
     <div class="row">
         <div class="col-md-12">
             <div class="card text-center">

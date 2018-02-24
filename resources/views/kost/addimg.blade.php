@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-default">
-                <div class="card-header">Tambah Gambar Kost</div>
+                <div class="card-header">Tambah gambar untuk {{ $kost->nama_kost }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('kost.saveimg') }}" enctype="multipart/form-data">

@@ -54,6 +54,24 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="kode_pos" class="col-md-4 col-form-label text-md-right">Kode Pos</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control{{ $errors->has('addr') ? ' is-invalid' : '' }}" id="kode_pos" name="kode_pos">
+                                    @foreach ($kode_pos as $dkode)
+                                        <option value="{{ $dkode->id }}"> {{ $dkode->kode_pos }} - {{ $dkode->kelurahan }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('kode_pos'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('kode_pos') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="pict" class="col-md-4 col-form-label text-md-right">Gambar Sampul</label>
 
                             <div class="col-md-6">

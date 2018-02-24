@@ -26,7 +26,8 @@ class UploadGallery extends FormRequest
         $rules = [
             'id' => 'required'
         ];
-        $photos = count($this->input('photos'));
+        $req[] = $this->input('photos');
+        $photos = count($req);
         foreach(range(0, $photos) as $index) {
             $rules['photos.' . $index] = 'required|image|max:2000';
         }
