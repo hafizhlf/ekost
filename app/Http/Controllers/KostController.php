@@ -14,6 +14,7 @@ use App\Fasilitas;
 use App\Kelurahan;
 use App\Kecamatan;
 use App\FasilitasKost;
+use App\Reservations;
 use Auth;
 
 class KostController extends Controller
@@ -32,7 +33,11 @@ class KostController extends Controller
     {
         $user_id = Auth::user()->id;
         $kosts = DB::table('kosts')->where('user_id', $user_id)->paginate(5);
-        $data = ['kosts' => $kosts];
+        $reservations = Reservations::whereHas('kosts', function ($query) use ($user_id){
+            $query->where('user_id', $user_id);
+        })->paginate(5);
+        $data = ['kosts' => $kosts,
+        'reservations' => $reservations];
         return view('kost.index', $data);
     }
 
@@ -153,6 +158,8 @@ class KostController extends Controller
             $extension = $request->file('pict')->getClientOriginalExtension();
             $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
             $path = $request->file('pict')->storeAs('public/image/kost', $fileNameToStore);
+        } else {
+            exit();
         }
 
         $kost = Kost::find($id);
@@ -266,12 +273,16 @@ class KostController extends Controller
             'bulan' => 'required|max:30000000|numeric',
         ]);
 
+        $hargakos = HargaKost::where('kost_id', $id);
+        $hargakos->delete();
         $harga = new HargaKost;
         $harga->hari = $request->input('hari');
         $harga->bulan = $request->input('bulan');
         $harga->minggu = $request->input('minggu');
         $harga->kost_id = $id;
         $harga->save();
+
+        return redirect('/kost/'. $id)->with('success', 'Harga telah di perbarui');
     }
 
     public function storeFasilitas(Request $request, $id)

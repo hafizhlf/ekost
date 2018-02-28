@@ -75,12 +75,14 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|min:6|max:255',
             'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|min:10',
             'password' => 'nullable|max:255|min:7|confirmed',
         ]);
 
         $user = User::find($id);
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
         if(null !== $request->input('password')){
             $user->password = Hash::make($request->input('password'));
         }

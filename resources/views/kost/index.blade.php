@@ -6,7 +6,7 @@
     <h2>Kost yang anda miliki</h2>
     <br/>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <div class="card text-center">
                 <div class="card-header">User </div>
                 <div class="card-body">
@@ -46,6 +46,38 @@
                         </tbody>
                     </table>
                     {{ $kosts->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card text-center">
+                <div class="card-header">Pesanan Masuk </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nama Pemesan</th>
+                                <th scope="col">Email Pemesan</th>
+                                <th scope="col">Telepon Pemesan</th>
+                                <th scope="col">KTP Pemesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($reservations as $reservasi)
+                            <tr>
+                                <th scope="row">{{ ( $reservations->currentPage() - 1 ) * $reservations->perPage() + $loop->iteration }}</th>
+                                <td>{{ $reservasi->name }}</td>
+                                <td>{{ $reservasi->email }}</td>
+                                <td>{{ $reservasi->phone }}</td>
+                                <td><img src="/storage/image/ktp/{{ $reservasi->ktp }}" class="img-fluid" style="height: 150px; display: block;"></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $reservations->links() }}
                 </div>
             </div>
         </div>

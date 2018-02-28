@@ -12,6 +12,9 @@
 */
 
 Route::get('/', 'PagesController@index');
+Route::get('/pages/{kost}', 'PagesController@show')->name('get.kost');
+Route::get('/pages/{kost}/pesan', 'PagesController@pesan')->name('pesan.kost');
+Route::post('/pages/{kost}/pesan', 'PagesController@storePesanan')->name('pesan.store');
 
 Auth::routes();
 
