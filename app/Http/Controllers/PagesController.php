@@ -38,7 +38,6 @@ class PagesController extends Controller
 
     public function show($id)
     {
-        $user_id = Auth::user()->id;
         $kost = Kost::find($id);
         $harga = HargaKost::where('kost_id', $id)->first();
         $photos = Photo::where('kost_id', $id)->get();
