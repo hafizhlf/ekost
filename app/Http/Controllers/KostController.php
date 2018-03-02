@@ -158,8 +158,6 @@ class KostController extends Controller
             $extension = $request->file('pict')->getClientOriginalExtension();
             $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
             $path = $request->file('pict')->storeAs('public/image/kost', $fileNameToStore);
-        } else {
-            exit();
         }
 
         $kost = Kost::find($id);
